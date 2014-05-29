@@ -2,14 +2,14 @@ package uk.co.primaltech.stockmanagement.GUI.Search;
 
 import java.util.ArrayList;
 import java.util.List;
-import uk.co.primaltech.stockmanagement.ProjectManager;
+import uk.co.primaltech.stockmanagement.GUI.main.TabManager;
 import uk.co.primaltech.stockmanagement.product.Product;
 
 /**
  *
  * @author Nuno Mogas <nuno.mogas@gmail.com>
  */
-public class SearchManager extends ProjectManager{
+public class SearchManager extends TabManager{
     
     /* Singleton instance. */
     private static volatile SearchManager instance = null;
@@ -45,11 +45,7 @@ public class SearchManager extends ProjectManager{
         selectedTab = newTab;
         return newTab;
     }        
-    
-    public SearchResultsTabLink getSelectedTab(){
-        return selectedTab;
-    }
-    
+        
     public void removeSelectedTab(){
         if (selectedTab != null && !searchTabList.isEmpty()){
             //remove the tab for the list of opened tabs

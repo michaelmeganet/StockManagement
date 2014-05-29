@@ -1,12 +1,11 @@
 package uk.co.primaltech.stockmanagement.GUI.main;
 
-import uk.co.primaltech.stockmanagement.ProjectManager;
 
 /**
  *
  * @author Nuno Mogas <nuno.mogas@gmail.com>
  */
-public class HomeManager extends ProjectManager{
+public class HomeManager extends TabManager{
     
     private static volatile HomeManager instance = null;
     

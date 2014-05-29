@@ -10,7 +10,6 @@ import javax.swing.event.ChangeListener;
 import uk.co.primaltech.stockmanagement.GUI.Search.SearchManager;
 import uk.co.primaltech.stockmanagement.GUI.Search.SearchResultsTab;
 import uk.co.primaltech.stockmanagement.GUI.Search.SearchResultsTabManager;
-import uk.co.primaltech.stockmanagement.ProjectManager;
 import uk.co.primaltech.stockmanagement.Tuple;
 import uk.co.primaltech.stockmanagement.product.Product;
 
@@ -115,11 +114,9 @@ public boolean removeSearchTabResult() {
         Runnable r = new Runnable() {
             @Override
             public void run() {
-                if (component instanceof HomeTab) {
-                    ProjectManager.getInstance().setSelectedManager(HomeManager.getInstance());
+                if (component instanceof HomeTab) {                    
                     selectedTab = (HomeTabManager) tabList.get(0).getX();
-                } else if (component instanceof SearchResultsTab) {
-                    ProjectManager.getInstance().setSelectedManager(SearchManager.getInstance());
+                } else if (component instanceof SearchResultsTab) {                    
                     for (int i = 1; i < tabList.size(); i++) {
                         if (tabList.get(i).getY() == component) {
                             selectedTab = (SearchResultsTabManager) tabList.get(i).getX();
