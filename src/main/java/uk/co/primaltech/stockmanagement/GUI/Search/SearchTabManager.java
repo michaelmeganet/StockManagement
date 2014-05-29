@@ -15,10 +15,10 @@ public class SearchTabManager extends TabManager{
     private static volatile SearchTabManager instance = null;
     
     /* List of opened search tabs */
-    private List<SearchResultsTabLink> searchTabList;
+    private List<SearchTabLink> searchTabList;
     
     /* Selected search tab */
-    private SearchResultsTabLink selectedTab;
+    private SearchTabLink selectedTab;
     
     /* Singleton instance with double-check lock to prevent concurrenct accesses */
     public static SearchTabManager getInstance(){
@@ -37,13 +37,13 @@ public class SearchTabManager extends TabManager{
         searchTabList = new ArrayList<>();
     }
     
-    public SearchResultsTabLink newSearchTab(Product product){
+    public SearchTabLink newSearchTab(Product product){
         assert product != null;
         
-        SearchResultsTabLink newTab = new SearchResultsTabLink(product);
+        SearchTabLink newTab = new SearchTabLink(product);
         searchTabList.add(newTab);
         selectedTab = newTab;
-        return newTab;
+        return selectedTab;
     }        
         
     public void removeSelectedTab(){
@@ -64,11 +64,16 @@ public class SearchTabManager extends TabManager{
         assert title != null && !title.isEmpty();        
     }
 
-    public List<SearchResultsTabLink> getSearchTabList() {
+    public List<SearchTabLink> getSearchTabList() {
         return searchTabList;
     }
 
-    public void setSearchTabList(List<SearchResultsTabLink> searchTabList) {
+    public void setSearchTabList(List<SearchTabLink> searchTabList) {
         this.searchTabList = searchTabList;
+    
+    }
+
+    public SearchTabLink getActiveSearchTab() {
+        return selectedTab;
     }
 }

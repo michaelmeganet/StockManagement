@@ -56,7 +56,8 @@ public class GenerateTables {
                     + "DateIN Date, "
                     + "DateOUT Date, "
                     + "Price VARCHAR(256),"
-                    + "Invoice VARCHAR(256)"
+                    + "Invoice VARCHAR(256),"
+                    + "UNIQUE(ProductName, Serial, Brand)"
                     + ")");
         } catch (SQLException ex) {
             System.out.println(ex.getLocalizedMessage());

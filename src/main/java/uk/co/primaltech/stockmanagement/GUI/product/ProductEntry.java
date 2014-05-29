@@ -11,7 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
-import uk.co.primaltech.stockmanagement.GUI.Search.SearchResultsTabManager;
+import uk.co.primaltech.stockmanagement.GUI.Search.SearchTabManager;
 import uk.co.primaltech.stockmanagement.GUI.main.MainWindow;
 import uk.co.primaltech.stockmanagement.GUI.main.TabManager;
 import uk.co.primaltech.stockmanagement.database.DBInsert;
@@ -89,8 +89,8 @@ public class ProductEntry extends javax.swing.JDialog implements Runnable {
             resetFields();
         } else {
             instance.setTitle("Edit Product Entry");
-            if (TabManager.getInstance().getSelectedTab() instanceof SearchResultsTabManager) {
-                product = ((SearchResultsTabManager) TabManager.getInstance().getSelectedTab()).getProduct();
+            if (TabManager.getInstance().getSelectedTab() instanceof SearchTabManager) {
+                product = ((SearchTabManager) TabManager.getInstance()).getActiveSearchTab().getProduct();
                 instance.jProductName.setText(product.getProductName());
                 instance.jSerial.setText(product.getSerial());
                 instance.jDateIN.setDate(product.getDateIN());
@@ -423,7 +423,7 @@ public class ProductEntry extends javax.swing.JDialog implements Runnable {
                         JOptionPane.showMessageDialog(null, "<html>Data successful saved!<html>", "Success", JOptionPane.INFORMATION_MESSAGE);                        
 
                         //open product info tab (same as search)
-                        TabManager.getInstance().addSearchResultsTab(product);
+                        TabManager.getInstance().addSearchTab(product);
                     }
 
                 } else {
@@ -436,7 +436,7 @@ public class ProductEntry extends javax.swing.JDialog implements Runnable {
                         TabManager.getInstance().removeSearchTabResult();
 
                         //open product info tab (same as search)
-                        TabManager.getInstance().addSearchResultsTab(product);
+                        TabManager.getInstance().addSearchTab(product);
                     }
                 }
 

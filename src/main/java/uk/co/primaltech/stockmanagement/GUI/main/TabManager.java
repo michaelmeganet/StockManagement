@@ -1,17 +1,8 @@
 package uk.co.primaltech.stockmanagement.GUI.main;
 
-import java.awt.Component;
-import java.util.ArrayList;
-import java.util.List;
 import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import uk.co.primaltech.stockmanagement.GUI.Search.SearchResultsTab;
-import uk.co.primaltech.stockmanagement.GUI.Search.SearchResultsTabManager;
 import uk.co.primaltech.stockmanagement.GUI.Search.SearchTabManager;
 
-import uk.co.primaltech.stockmanagement.Tuple;
 import uk.co.primaltech.stockmanagement.product.Product;
 
 /**
@@ -30,60 +21,32 @@ public class TabManager extends JTabbedPane {
             synchronized (TabManager.class) {
                 if (instance == null) {
                     instance = new TabManager();
+                    instance.addHomeTab();
                 }
             }
-        }
-        addHomeTab();
+        }        
         return instance;
     }
 
     protected TabManager() {
 //        tabList = new ArrayList<>();
-        setTabPlacement(JTabbedPane.BOTTOM);        
+        setTabPlacement(JTabbedPane.BOTTOM);                
     }
 
-    private static void addHomeTab() {
-//        tabList.add(new Tuple<TabManager, Component>(HomeTabManager.getInstance(), HomeTabManager.getInstance().getHometab()));
-//
+    private void addHomeTab() {
         instance.add("Home", new HomeTab());
-//        instance.setSelectedIndex(instance.getTabCount() - 1);
-//        if (initListenner == false) {
-//            initListenner = true;
-//            addChangeListener(new ChangeListener() {
-//                @Override
-//                public void stateChanged(ChangeEvent e) {
-//                    JTabbedPane pane = (JTabbedPane) e.getSource();                    
-//                    TabManager.getInstance().setSelectedTab(pane.getComponentAt(pane.getSelectedIndex()));
-//                }
-//            });
-//        }
-//        selectedTab = HomeTabManager.getInstance();
-        // HomeTabManager.getInstance();
     }
-
-    public final SearchResultsTabManager addSearchResultsTab(Product product) {
-//        SearchResultsTabManager searchTab = new SearchResultsTabManager(product);
-//        tabList.add(new Tuple<TabManager, Component>(searchTab, searchTab.getResultsTab()));
-//        
-//        String productName = product.getProductName();
-//        String tabName;
-//        if (productName.length() <= 10){
-//            tabName = productName.concat(" - ").concat(product.getBrand()).concat(" - ").concat(product.getSerial());
-//        }else{
-//            tabName = productName.substring(0, 10).concat(" - ").concat(product.getBrand()).concat(" - ").concat(product.getSerial());
-//        }
-//        
-//        instance.add(tabName, searchTab.getResultsTab());                
-//        
-//        //tweak for add close button
-//        instance.setTabComponentAt(instance.getTabCount() - 1, new ButtonTabComponent(instance));
-//        
-//        instance.setSelectedIndex(instance.getTabCount() - 1);                
-//
-//        selectedTab = searchTab;        
-//        return searchTab;
-        return null;
+    
+    public void addSearchTab(Product product){
+        instance.add("Search", SearchTabManager.getInstance().newSearchTab(product).getResultTab());
+        
+        //tweak for add close button
+        instance.setTabComponentAt(instance.getTabCount() - 1, new ButtonTabComponent(instance));
+        
+        //sets the selected index for the current tab
+        instance.setSelectedIndex(instance.getTabCount() - 1);
     }
+    
 
     public boolean removeSearchTabResult() {
 //        if (tabList != null && !tabList.isEmpty()) {
