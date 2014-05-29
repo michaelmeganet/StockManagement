@@ -11,9 +11,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+import uk.co.primaltech.stockmanagement.GUI.Search.SearchResultsTabManager;
 import uk.co.primaltech.stockmanagement.GUI.main.MainWindow;
-import uk.co.primaltech.stockmanagement.ProjectManager;
+import uk.co.primaltech.stockmanagement.GUI.main.TabManager;
 import uk.co.primaltech.stockmanagement.database.DBInsert;
+import uk.co.primaltech.stockmanagement.database.DBUpdate;
 import uk.co.primaltech.stockmanagement.product.Brand;
 import uk.co.primaltech.stockmanagement.product.Product;
 import uk.co.primaltech.stockmanagement.product.Supplier;
@@ -22,23 +24,24 @@ import uk.co.primaltech.stockmanagement.product.Supplier;
  *
  * @author Nuno Mogas <nuno.mogas@gmail.com>
  */
-public class ProductEntryGUI extends javax.swing.JDialog implements Runnable {
+public class ProductEntry extends javax.swing.JDialog implements Runnable {
 
-    private static volatile ProductEntryGUI instance = null;
+    private static volatile ProductEntry instance = null;
 
-    public static ProductEntryGUI getInstance() {
+    private Product product;
+
+    private static boolean isNew;
+
+    public static ProductEntry getInstance(boolean isNew) {
         if (instance == null) {
-            synchronized (ProductEntryGUI.class) {
+            synchronized (ProductEntry.class) {
                 if (instance == null) {
-                    instance = new ProductEntryGUI();
+                    instance = new ProductEntry();
                     instance.setPreferredSize(new Dimension(320, 350));
                     instance.initComponents();
 
                     /* Make windows always on top */
                     instance.setModal(true);
-                                        
-
-                    instance.setTitle("New product entry");
 
                     instance.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -62,18 +65,46 @@ public class ProductEntryGUI extends javax.swing.JDialog implements Runnable {
                     instance.jAddSupplierButton.setIcon(logoicon);
                     instance.jAddSupplierButton.setText("");
 
+                    /* force the use of graphical editor to set dates */
+                    instance.jDateIN.getDateEditor().setEnabled(false);
+                    instance.jDateOUT.getDateEditor().setEnabled(false);
+
                     /* Add default brands*/
                     ProductEntryController.getInstance().addDefaultBrands();
 
                     /* Add default suppliers*/
                     ProductEntryController.getInstance().addDefaultSuppliers();
-
-                    /* Start a thread instance of this GUI. */
-                    new Thread(instance).start();
                 }
             }
         }
+        ProductEntry.isNew = isNew;
+        instance.LoadwindowType();
         return instance;
+    }
+
+    private void LoadwindowType() {
+        if (isNew) {
+            instance.setTitle("New Product Entry");
+            product = null;
+            resetFields();
+        } else {
+            instance.setTitle("Edit Product Entry");
+            if (TabManager.getInstance().getSelectedTab() instanceof SearchResultsTabManager) {
+                product = ((SearchResultsTabManager) TabManager.getInstance().getSelectedTab()).getProduct();
+                instance.jProductName.setText(product.getProductName());
+                instance.jSerial.setText(product.getSerial());
+                instance.jDateIN.setDate(product.getDateIN());
+                instance.jDateOUT.setDate(product.getDateOUT());
+                instance.jBought.setText(product.getPrice());
+                instance.jComboBrand.setSelectedItem(product.getBrand());
+                instance.jComboSupplier.setSelectedItem(product.getSupplier());
+            } else {
+                dispose();
+                return;
+            }
+        }
+        /* Start a thread instance of this GUI. */
+        new Thread(instance).start();
     }
 
     /**
@@ -339,12 +370,12 @@ public class ProductEntryGUI extends javax.swing.JDialog implements Runnable {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        this.dispose();        
+        this.dispose();
         resetFields();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Product product = new Product(jProductName.getText(),
+        product = new Product(jProductName.getText(),
                 jComboBrand.getSelectedItem().toString(),
                 jSerial.getText(),
                 jComboSupplier.getSelectedItem().toString(),
@@ -381,19 +412,37 @@ public class ProductEntryGUI extends javax.swing.JDialog implements Runnable {
             case SUCCESS:
                 //release components                                
                 this.dispose();
-                
-                //write data to database
-                if (!DBInsert.newProduct(product))
-                    JOptionPane.showMessageDialog(null, "<html>Could not save data.. Something went wrong :(<html>", "Error", JOptionPane.ERROR_MESSAGE);
-                else{
-                    JOptionPane.showMessageDialog(null, "<html>Data successful saved!<html>", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+                if (isNew) {
+                    //write data to database
+                    int id;
+                    if ((id = DBInsert.newProduct(product)) == -1) {
+                        JOptionPane.showMessageDialog(null, "<html>Could not save data.. Something went wrong :(<html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        product.setDbID(id);
+                        JOptionPane.showMessageDialog(null, "<html>Data successful saved!<html>", "Success", JOptionPane.INFORMATION_MESSAGE);                        
+
+                        //open product info tab (same as search)
+                        TabManager.getInstance().addSearchResultsTab(product);
+                    }
+
+                } else {
+                    //update database!
+                    if (!DBUpdate.updateProduct(product)) {
+                        JOptionPane.showMessageDialog(null, "<html>Could not save data.. Something went wrong :(<html>", "Error", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "<html>Data successful edited!<html>", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        /* ??????? not a good solution */
+                        TabManager.getInstance().removeSearchTabResult();
+
+                        //open product info tab (same as search)
+                        TabManager.getInstance().addSearchResultsTab(product);
+                    }
                 }
-                
-                //open product info tab (same as search)
-                ProjectManager.getInstance().getSearchManager().newSearchTab(product);
+
                 //reset fields label
-                resetFields();                
-                
+                resetFields();
+
                 break;
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -450,14 +499,14 @@ public class ProductEntryGUI extends javax.swing.JDialog implements Runnable {
     public JComboBox getjComboSupplier() {
         return jComboSupplier;
     }
-    
+
     @Override
-    public void setVisible(boolean flag){
-        setLabelsDefaultColor();        
+    public void setVisible(boolean flag) {
+        setLabelsDefaultColor();
         super.setVisible(flag);
     }
-    
-    private void setLabelsDefaultColor(){
+
+    private void setLabelsDefaultColor() {
         jLabelBrand.setForeground(Color.BLACK);
         jLabelDateIN.setForeground(Color.BLACK);
         jLabelDateOUT.setForeground(Color.BLACK);
@@ -477,12 +526,12 @@ public class ProductEntryGUI extends javax.swing.JDialog implements Runnable {
         jComboSupplier.setSelectedIndex(0);
 
         jDateIN.setDate(Calendar.getInstance().getTime());
-        jDateIN.setDateFormatString("dd-MM-yyyy");
+        jDateIN.setDateFormatString("dd-MMM-yyyy");
 
         jDateOUT.setDate(null);
 
         jBought.setText("");
-        
+
         setLabelsDefaultColor();
     }
 
@@ -527,7 +576,7 @@ public class ProductEntryGUI extends javax.swing.JDialog implements Runnable {
                 try {
                     wait();
                 } catch (InterruptedException ex) { //TODO: excepçoes
-                    Logger.getLogger(ProductEntryGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(ProductEntry.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }

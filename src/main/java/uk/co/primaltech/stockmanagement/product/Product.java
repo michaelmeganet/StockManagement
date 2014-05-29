@@ -19,6 +19,7 @@ public class Product {
     private Date dateOUT;
     private String price;
     private String invoice;
+    private int dbID;
 
     public Product(String productName, String brand, String serial, String supplier, Date dateIN, Date dateOUT, String boughtPriece, String invoice) {
         this.productName = productName;
@@ -98,4 +99,14 @@ public class Product {
     public void setInvoice(String invoice) {
         this.invoice = invoice;
     }
+
+    public int getDbID() {
+        return dbID;
+    }
+
+    public void setDbID(int dbID) {
+        this.dbID = dbID;
+    }
+    
+    
 }

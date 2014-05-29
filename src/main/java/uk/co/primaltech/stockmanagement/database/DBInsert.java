@@ -1,7 +1,10 @@
 package uk.co.primaltech.stockmanagement.database;
 
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import uk.co.primaltech.stockmanagement.database.GenerateTables.Table;
 import uk.co.primaltech.stockmanagement.product.Product;
 
@@ -11,15 +14,16 @@ import uk.co.primaltech.stockmanagement.product.Product;
  */
 public class DBInsert {
 
-    public static boolean newProduct(Product p) {
+    public static int newProduct(Product p) {
         assert p != null;
+        int id = -1;
 
         String data = "INSERT INTO " + Table.PRODUCTS.getValue()
                 + "(ProductName, Brand, Serial, Supplier, DateIN, DateOUT, Price, Invoice) VALUES"
                 + "(?,?,?,?,?,?,?,?)";
 
         try {
-            try (PreparedStatement ps = DBConnection.getInstance().getConnection().prepareStatement(data)) {
+            try (PreparedStatement ps = DBConnection.getInstance().getConnection().prepareStatement(data, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, p.getProductName());
                 ps.setString(2, p.getBrand());
                 ps.setString(3, p.getSerial());
@@ -36,11 +40,15 @@ public class DBInsert {
                 // execute insert SQL statement
                 ps.executeUpdate();
 
-                return true;
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next()) {
+                    id = rs.getInt(1);
+                }                
+                return id;
             }
         } catch (SQLException ex) {
             System.out.println(ex.getLocalizedMessage());
-            return false;
+            return id;
         }
     }
 }

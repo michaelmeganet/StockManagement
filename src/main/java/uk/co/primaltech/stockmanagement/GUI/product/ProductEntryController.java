@@ -5,9 +5,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import javax.swing.JComboBox;
 import uk.co.primaltech.stockmanagement.ApplicationSettings;
 import uk.co.primaltech.stockmanagement.product.Product;
@@ -80,9 +77,9 @@ public class ProductEntryController {
             br = new BufferedReader(new FileReader(file));
             String line;
             while ((line = br.readLine()) != null && !line.isEmpty()) {
-                if (!containItem(ProductEntryGUI.getInstance().getjComboBrand(), line.toUpperCase())) {
+                if (!containItem(ProductEntry.getInstance(false).getjComboBrand(), line.toUpperCase())) {
                     line = line.replaceAll(" ", "");
-                    ProductEntryGUI.getInstance().getjComboBrand().addItem(line.toUpperCase());
+                    ProductEntry.getInstance(false).getjComboBrand().addItem(line.toUpperCase());
                 }
 
             }
@@ -108,9 +105,9 @@ public class ProductEntryController {
             br = new BufferedReader(new FileReader(file));
             String line;
             while ((line = br.readLine()) != null && !line.isEmpty()) {
-                if (!containItem(ProductEntryGUI.getInstance().getjComboSupplier(), line.toUpperCase())) {
+                if (!containItem(ProductEntry.getInstance(false).getjComboSupplier(), line.toUpperCase())) {
                     line = line.replaceAll(" ", "");
-                    ProductEntryGUI.getInstance().getjComboSupplier().addItem(line.toUpperCase());
+                    ProductEntry.getInstance(false).getjComboSupplier().addItem(line.toUpperCase());
                 }
             }
         } catch (FileNotFoundException ex) {

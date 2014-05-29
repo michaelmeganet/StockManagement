@@ -84,7 +84,7 @@ public class TabManager extends JTabbedPane {
         return searchTab;
     }
 
-    public boolean removeSearchTabResult() {
+public boolean removeSearchTabResult() {
         if (tabList != null && !tabList.isEmpty()) {
             Component selectedComponent = getSelectedComponent();
             if (selectedComponent instanceof SearchResultsTab) {

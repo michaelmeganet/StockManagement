@@ -5,7 +5,7 @@ import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
 import java.sql.SQLException;
 import javax.swing.JPanel;
-import uk.co.primaltech.stockmanagement.GUI.product.ProductEntryGUI;
+import uk.co.primaltech.stockmanagement.GUI.product.ProductEntry;
 import uk.co.primaltech.stockmanagement.Main;
 import uk.co.primaltech.stockmanagement.database.DBConnection;
 
@@ -105,7 +105,7 @@ public class MainWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jAddNewProductEntryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddNewProductEntryActionPerformed
-        ProductEntryGUI.getInstance().setVisible(true);        
+        ProductEntry.getInstance(true).setVisible(true);
     }//GEN-LAST:event_jAddNewProductEntryActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed

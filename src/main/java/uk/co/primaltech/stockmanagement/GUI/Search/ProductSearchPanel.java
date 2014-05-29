@@ -7,11 +7,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
@@ -19,7 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import uk.co.primaltech.stockmanagement.GUI.main.ContentPanel;
-import uk.co.primaltech.stockmanagement.ProjectManager;
+import uk.co.primaltech.stockmanagement.database.DBSelect;
 import uk.co.primaltech.stockmanagement.product.Product;
 
 /**
@@ -196,9 +198,26 @@ class MyMouseListener implements MouseListener {
 //                Product product = buscar a base de dados
 //                if (product != null) {
 //                    /* Add to project. */
-                    Product p = new Product("a", "a","a", "a", null, null, "2", "aa");
-                ProjectManager.getInstance().getSearchManager().newSearchTab(p);                    
-//                }
+                if (brandRadioB.isSelected()){
+                    //by brand
+                    
+                }else if (serialRadioB.isSelected()){
+                    //by serial
+                    
+                }else if (productNameRadioB.isSelected()){
+                    //by name
+                    List<Product> productList = DBSelect.getProductByName(inputText);
+                    if (productList.isEmpty()){
+                        JOptionPane.showMessageDialog(null, "<html>No records found for keyword: <b>" + inputText + "</b> !<html>", "Notification", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        
+                    }
+                }else{
+                    //by client???
+                }
+                
+//                Product p = new Product("a", "a","a", "a", null, null, "2", "aa");
+//                ProjectManager.getInstance().getSearchManager().newSearchTab(p);
                                                 
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override
