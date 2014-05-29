@@ -8,6 +8,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import uk.co.primaltech.stockmanagement.GUI.Search.ProductSearchPanel;
+import uk.co.primaltech.stockmanagement.GUI.main.ContainerPanel;
+import uk.co.primaltech.stockmanagement.GUI.main.MainWindowController;
 
 /**
  *

@@ -104,10 +104,7 @@ public class MainWindowController implements Runnable {
         
         /* Add the main area to the main window. */
         mainWindow.getMainContent().add(TabManager.getInstance(), BorderLayout.CENTER);        
-        
-        //Create Home Tab
-        HomeManager.getInstance();
-        
+                        
         mainWindow.pack();
         mainWindow.setPreferredSize(new Dimension(1000, 500));
         mainWindow.setMinimumSize(new Dimension(1000, 500));
