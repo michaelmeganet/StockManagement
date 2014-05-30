@@ -2,9 +2,6 @@ package uk.co.primaltech.stockmanagement.product;
 
 import java.util.Date;
 
-
-
-
 /**
  *
  * @author Nuno Mogas <nuno.mogas@gmail.com>
@@ -107,6 +104,4 @@ public class Product {
     public void setDbID(int dbID) {
         this.dbID = dbID;
     }
-    
-    
 }

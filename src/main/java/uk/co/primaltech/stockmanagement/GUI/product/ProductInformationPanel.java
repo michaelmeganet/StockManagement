@@ -27,7 +27,6 @@ import javax.swing.SwingConstants;
 import uk.co.primaltech.stockmanagement.GUI.main.ContentPanel;
 import uk.co.primaltech.stockmanagement.GUI.main.MainWindow;
 import uk.co.primaltech.stockmanagement.Tuple;
-import uk.co.primaltech.stockmanagement.product.Brand;
 import uk.co.primaltech.stockmanagement.product.Product;
 
 /**

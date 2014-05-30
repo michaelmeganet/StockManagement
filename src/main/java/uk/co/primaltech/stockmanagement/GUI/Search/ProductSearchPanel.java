@@ -111,7 +111,6 @@ public class ProductSearchPanel extends ContentPanel {
         searchButton.addActionListener(searchAction);
         searchButton.setEnabled(false);
 
-//        panel1.add(Box.createHorizontalStrut(WIDTH))
         panel1.add(Box.createHorizontalStrut(10));
         panel1.add(inputField);
         panel1.add(Box.createHorizontalStrut(15));
@@ -124,7 +123,7 @@ public class ProductSearchPanel extends ContentPanel {
         panel2.setLayout(new BoxLayout(panel2, BoxLayout.X_AXIS));
         panel2.add(productNameRadioB);
         panel2.add(brandRadioB);        
-        //        mtm1.setAlignmentX(0.0f);
+        
         panel2.add(serialRadioB);
         
         this.add(panel2);
@@ -195,9 +194,6 @@ class MyMouseListener implements MouseListener {
                     }
                 });    
                 
-//                Product product = buscar a base de dados
-//                if (product != null) {
-//                    /* Add to project. */
                 if (brandRadioB.isSelected()){
                     //by brand
                     
@@ -214,10 +210,7 @@ class MyMouseListener implements MouseListener {
                     }
                 }else{
                     //by client???
-                }
-                
-//                Product p = new Product("a", "a","a", "a", null, null, "2", "aa");
-//                ProjectManager.getInstance().getSearchManager().newSearchTab(p);
+                }                
                                                 
                 SwingUtilities.invokeLater(new Runnable() {
                     @Override

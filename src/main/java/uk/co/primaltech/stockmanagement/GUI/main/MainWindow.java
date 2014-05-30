@@ -3,7 +3,11 @@ package uk.co.primaltech.stockmanagement.GUI.main;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import static java.awt.Frame.MAXIMIZED_BOTH;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.net.URL;
 import java.sql.SQLException;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import uk.co.primaltech.stockmanagement.GUI.product.ProductEntry;
 import uk.co.primaltech.stockmanagement.Main;
@@ -28,6 +32,8 @@ public class MainWindow extends javax.swing.JFrame {
         setExtendedState(MAXIMIZED_BOTH);
         setPreferredSize(new Dimension(1150, 700));
         mainContent.setLayout(new BorderLayout());
+        URL iconURL = MainWindow.class.getResource("/icon.png");        
+        setIconImage(Toolkit.getDefaultToolkit().getImage(iconURL));
     }           
 
     /**

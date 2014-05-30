@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 /**
- *
+ * @author Paulo Gaspar
  * @author Nuno Mogas <nuno.mogas@gmail.com>
  */
 public abstract class ContentPanel extends JPanel

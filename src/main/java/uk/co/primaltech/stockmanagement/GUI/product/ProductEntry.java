@@ -433,7 +433,7 @@ public class ProductEntry extends javax.swing.JDialog implements Runnable {
                     } else {
                         JOptionPane.showMessageDialog(null, "<html>Data successful edited!<html>", "Success", JOptionPane.INFORMATION_MESSAGE);
                         /* ??????? not a good solution */
-                        TabManager.getInstance().removeSearchTabResult();
+                        TabManager.getInstance().removeSearchTab();
 
                         //open product info tab (same as search)
                         TabManager.getInstance().addSearchTab(product);

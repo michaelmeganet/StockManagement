@@ -12,7 +12,6 @@ public enum ProductFieldErrorControl {
     ERROR_SUPPLIER,
     ERROR_DATE_IN,
     ERROR_DATE_OUT,
-    ERROR_PRICE,
-    
+    ERROR_PRICE,    
     SUCCESS
 }

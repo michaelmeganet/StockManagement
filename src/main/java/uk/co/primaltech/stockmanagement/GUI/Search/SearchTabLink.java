@@ -9,28 +9,20 @@ import uk.co.primaltech.stockmanagement.product.Product;
 public class SearchTabLink {
        
     private final SearchTab searchTab;
-    private Product product;
+    private final Product product;
     
     public SearchTabLink(Product product){
         assert product != null;        
         this.product = product;
         
-//        tabManager = TabManager.getInstance().addSearchResultsTab(product);
         searchTab = new SearchTab(product);
     }    
     
     public SearchTab getResultTab() {
         return searchTab;
     }
-                
-
-//    public SearchResultsTabManager getTabManager() {
-//        return tabManager;
-//    }
 
     public Product getProduct() {
         return product;
     }
-
-    
 }

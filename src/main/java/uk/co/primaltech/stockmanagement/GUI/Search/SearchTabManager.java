@@ -15,7 +15,7 @@ public class SearchTabManager extends TabManager{
     private static volatile SearchTabManager instance = null;
     
     /* List of opened search tabs */
-    private List<SearchTabLink> searchTabList;
+    private final List<SearchTabLink> searchTabList;
     
     /* Selected search tab */
     private SearchTabLink selectedTab;
@@ -60,17 +60,8 @@ public class SearchTabManager extends TabManager{
         }
     }
     
-    public void setSelectedTab(String title){
-        assert title != null && !title.isEmpty();        
-    }
-
     public List<SearchTabLink> getSearchTabList() {
         return searchTabList;
-    }
-
-    public void setSearchTabList(List<SearchTabLink> searchTabList) {
-        this.searchTabList = searchTabList;
-    
     }
 
     public SearchTabLink getActiveSearchTab() {

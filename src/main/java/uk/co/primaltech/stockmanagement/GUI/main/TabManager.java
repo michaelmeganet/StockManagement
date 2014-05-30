@@ -1,8 +1,13 @@
 package uk.co.primaltech.stockmanagement.GUI.main;
 
+import java.awt.Component;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import javax.swing.JTabbedPane;
+import uk.co.primaltech.stockmanagement.GUI.Search.SearchTab;
 import uk.co.primaltech.stockmanagement.GUI.Search.SearchTabManager;
-
 import uk.co.primaltech.stockmanagement.product.Product;
 
 /**
@@ -12,9 +17,10 @@ import uk.co.primaltech.stockmanagement.product.Product;
 public class TabManager extends JTabbedPane {
 
     private static volatile TabManager instance = null;
-//    private final List<Tuple<TabManager, Component>> tabList;
+        
+    private final Map<ManagerType, List<Component>> tabList = new HashMap<>();
+    
     private TabManager selectedTab;
-//    private boolean initListenner = false;
 
     public static TabManager getInstance() {
         if (instance == null) {
@@ -29,41 +35,58 @@ public class TabManager extends JTabbedPane {
     }
 
     protected TabManager() {
-//        tabList = new ArrayList<>();
-        setTabPlacement(JTabbedPane.BOTTOM);                
+        setTabPlacement(JTabbedPane.BOTTOM);
+        tabList.put(ManagerType.HOME_MANAGER, new ArrayList());
+        tabList.put(ManagerType.SEARCH_MANAGER, new ArrayList());
+        tabList.put(ManagerType.CLIENT_MANAGER, new ArrayList());
     }
 
     private void addHomeTab() {
-        instance.add("Home", new HomeTab());
+        HomeTab homeTab = new HomeTab();
+        instance.add("Home", homeTab);
+        tabList.get(ManagerType.HOME_MANAGER).add(homeTab);
+        selectedTab = null;
     }
     
     public void addSearchTab(Product product){
-        instance.add("Search", SearchTabManager.getInstance().newSearchTab(product).getResultTab());
+        assert product != null;
+        
+        SearchTab tab = SearchTabManager.getInstance().newSearchTab(product).getResultTab();
+        
+        instance.add(product.getProductName(), tab);
         
         //tweak for add close button
         instance.setTabComponentAt(instance.getTabCount() - 1, new ButtonTabComponent(instance));
         
         //sets the selected index for the current tab
         instance.setSelectedIndex(instance.getTabCount() - 1);
+        
+        tabList.get(ManagerType.SEARCH_MANAGER).add(tab);
+        
+        selectedTab = SearchTabManager.getInstance();
     }
     
 
-    public boolean removeSearchTabResult() {
-//        if (tabList != null && !tabList.isEmpty()) {
-//            Component selectedComponent = getSelectedComponent();
-//            if (selectedComponent instanceof SearchResultsTab) {
-//                SearchTabManager.getInstance().removeSelectedTab();
-//                for (int i = 1; i < tabList.size(); i++) {
-//                    if (tabList.get(i).getY() == selectedComponent) {
-//                        tabList.remove(i);
-//                        instance.remove(selectedComponent);
-//                        instance.setSelectedIndex(instance.getTabCount() - 1);
-//                        selectedTab = tabList.get(tabList.size() - 1).getX();
-//                        return true;
-//                    }
-//                }
-//            }
-//        }
+    public boolean removeSearchTab() {
+        if (!tabList.isEmpty()){
+            Component selectedComponent = getSelectedComponent();
+            
+            //remove from global list
+            tabList.get(ManagerType.SEARCH_MANAGER).remove(SearchTabManager.getInstance().getActiveSearchTab().getResultTab());            
+            
+            //remove from list of search tabs
+            SearchTabManager.getInstance().removeSelectedTab();
+            
+            //remove from component list            
+            instance.remove(selectedComponent);
+            
+            //set the index of the active component as the last open tab
+            instance.setSelectedIndex(instance.getTabCount() - 1);
+                        
+            selectedTab = null;
+            
+            return true;
+        }
         return false;
     }
     
@@ -71,6 +94,10 @@ public class TabManager extends JTabbedPane {
         if (selectedTab == null) {
             return null;
         }
+        if (selectedTab instanceof SearchTabManager){
+            return(SearchTabManager) selectedTab;
+        }
+        
         return selectedTab;
     }
 }

@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 
 /**
  *
+ * @author Paulo Gaspar
  * @author Nuno Mogas <nuno.mogas@gmail.com>
  */
 public class ContainerPanel extends JPanel {

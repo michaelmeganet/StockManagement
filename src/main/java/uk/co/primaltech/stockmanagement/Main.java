@@ -15,10 +15,9 @@ import uk.co.primaltech.stockmanagement.database.DBConnection;
  * @author Nuno Mogas <nuno.mogas@gmail.com>
  */
 public class Main {
-
-    //ImageIcon helix = new ImageIcon(Toolkit.getDefaultToolkit().getImage(mainWindow.getResource(resource[0])).getScaledInstance(sequenceLabelWidthPixel + 1, 15, 100));    
+    
     private final static String name = "PrimalTech Stock Management";
-    private final static String version = "v0.1";
+    private final static String version = "v0.45";
 
     public static void main(String[] args) {
 
@@ -36,9 +35,7 @@ public class Main {
         
         /* Load Database */
         DBConnection.getInstance();
-
-        /* Load GUI colours. */
-        //loadGUIcolourScheme();
+        
         /* Select OS look and feel. */
         setLookAndFeel();
 
@@ -92,7 +89,5 @@ public class Main {
         UIManager.put("TaskPaneGroup.background", new Color(240, 240, 240));
     }
 
-    private static void loadGUIcolourScheme() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    
 }
